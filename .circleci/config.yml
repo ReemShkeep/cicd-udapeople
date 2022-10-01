@@ -1,4 +1,4 @@
-# version: 2.1
+version: 2.1
 
 # commands:
 #   destroy-environment:
@@ -33,7 +33,7 @@
 #             fi
 
 jobs:
-build-frontend:
+  build-frontend:
     docker:
       - image: cimg/node:13.8.0
     steps:
