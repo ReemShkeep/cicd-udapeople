@@ -388,7 +388,7 @@ jobs:
         - image: cimg/base:stable
       steps:
         - checkout
-        - install_aws
+        - install_awscli
         - run:
             name: Remove old stacks and files
             command: |
