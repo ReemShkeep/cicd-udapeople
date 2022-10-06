@@ -246,7 +246,6 @@ jobs:
             then
               curl --insecure https://kvdb.io/${KVDB_BUCKET}/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
-    # Here's where you will add some code to rollback on failure
       - destroy-environment
       - revert-migrations
 
@@ -258,16 +257,13 @@ jobs:
       - install_awscli
       - install_ansible
       - install_nodejs
-      - add_ssh_keys:
-          fingerprints: ["3b:40:be:61:c2:a5:fe:24:c2:c6:bf:cf:a6:7b:80:dc"]
-
-      # - restore_cache:
-      #     keys: [frontend-deps]
-      # - run:
-      #     name: Install dependencies
-      #     command: |
-      #       cd frontend
-      #       npm install
+      - restore_cache:
+          keys: [frontend-deps]
+      - run:
+          name: Install dependencies
+          command: |
+            cd frontend
+            npm install
       - run:
           name: Get backend url
           command: |
@@ -281,9 +277,6 @@ jobs:
           name: Deploy frontend objects
           command: |
             cd frontend
-            sudo npm install -g npm@latest
-            rm -rf node_modules
-            npm install
             npm run build
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       - destroy-environment
@@ -294,31 +287,39 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
-      - add_ssh_keys:
-          fingerprints: ["3b:40:be:61:c2:a5:fe:24:c2:c6:bf:cf:a6:7b:80:dc"]
-
-      - attach_workspace:
-          at: ~/
-      - install_nodejs
       - install_awscli
       - install_ansible
+      - install_nodejs
+      - add_ssh_keys:
+          fingerprints: ["3b:40:be:61:c2:a5:fe:24:c2:c6:bf:cf:a6:7b:80:dc"]
+      - attach_workspace:
+          at: ~/
+      # - restore_cache:
+      #     keys: [backend-deps]
+      - run:
+          name: Install dependencies
+          command: |
+            cd backend
+            npm install
+      - run:
+          name: Package Backend
+            # apk add --update tar gzip ansible nodejs npm aws-cli curl
+          command: |
+            cd backend
+            npm run build
+            tar -czf artifact.tar.gz dist/* package*
+            cd ..
+            cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
       - run:
           name: Deploy backend
           command: |
-            cd backend
-            npm i
-            npm run build
-            cd ..
-
+            export TYPEORM_MIGRATIONS_DIR=./migrations
+            export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
+            export TYPEORM_MIGRATIONS=./migrations/*.ts
             cd .circleci/ansible
-            mkdir files
-            cd files
-            tar -C ../../../backend -czf artifact.tar.gz
-            cd ../
             echo "Content of the inventory.txt file is -------"
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
-            
       - destroy-environment
       - revert-migrations
 
