@@ -393,7 +393,7 @@ jobs:
       steps:
         # Checkout code from git
         - checkout
-        - install-aws
+        - install_aws
         - run:
             name: Remove old stacks and files
             command: |
