@@ -303,7 +303,6 @@ jobs:
             npm install
       - run:
           name: Package Backend
-            # apk add --update tar gzip ansible nodejs npm aws-cli curl
           command: |
             cd backend
             npm run build
@@ -360,10 +359,8 @@ jobs:
 
   cloudfront-update:
     docker:
-      # Docker image here that supports AWS CLI
       - image: cimg/base:stable
     steps:
-      # Checkout code from git
       - checkout
       - install_awscli
       - run:
@@ -388,10 +385,8 @@ jobs:
 
   cleanup:
       docker:
-        # Docker image here
         - image: cimg/base:stable
       steps:
-        # Checkout code from git
         - checkout
         - install_aws
         - run:
