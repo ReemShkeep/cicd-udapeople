@@ -5,4 +5,12 @@ URL03:
 
 URL04:ec2-34-230-82-171.compute-1.amazonaws.com
 http://ec2-34-230-82-171.compute-1.amazonaws.com:9090/targets
+http://d1vfv5uq2ov5pv.cloudfront.net/#/employees
 
+curl http://23.20.102.108:3030/api/status
+avg(rate(node_cpu_seconds_total[mode!="idle"[1m]))by(instance)*100
+node_memory_Cached_bytes+node_memory_Buffers_bytes+node_memory_MemFree_bytes
+node_filesystem_free_bytes{device="/dev/root"}
+
+
+100 - 100 * (avg(irate(node_cpu_seconds_total{instance="INSTANCE",job="JOB",replica="REPLICA",mode="idle"}[1m])))
