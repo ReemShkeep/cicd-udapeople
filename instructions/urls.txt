@@ -1,4 +1,8 @@
 URL01: https://github.com/ReemShkeep/udapeople-cicd.git
 URL02:
 URL03:
-URL04:
+
+
+URL04:ec2-34-230-82-171.compute-1.amazonaws.com
+http://ec2-34-230-82-171.compute-1.amazonaws.com:9090/targets
+
