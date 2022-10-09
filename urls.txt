@@ -1,0 +1,16 @@
+URL[1] https://github.com/ReemShkeep/udapeople-cicd.git
+
+
+URL [2] http://udapeople-8973801.s3-website-us-east-1.amazonaws.com
+	http://udapeople-8973801.s3-website-us-east-1.amazonaws.com/#/employees
+
+
+URL [3]  https://d1vfv5uq2ov5pv.cloudfront.net/
+
+URL [4] http://
+ec2-52-200-119-218.compute-1.amazonaws.com
+
+URL [5] http://
+ec2-3-91-17-57.compute-1.amazonaws.com
+
+https://app.circleci.com/pipelines/github/ReemShkeep
