@@ -70,3 +70,5 @@ node_modules
 dist
 
 .myenv.sh
+myenv.sh
+.env.sample
